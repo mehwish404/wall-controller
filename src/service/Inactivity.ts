@@ -1,12 +1,12 @@
-import { reactive } from "vue";
-import { useWallController } from "./WallControllerService";
-import { InteractionControls } from "./interactionWallApp/InteractionToWallApp";
+import {reactive} from "vue";
+import {useWallController} from "./WallControllerService";
+import {InteractionControls} from "./interactionWallApp/InteractionToWallApp";
 import axios from "axios";
 
-const { setReminder, wallScreenState, wallControllerState } = useWallController();
+const {setReminder, wallScreenState, wallControllerState} = useWallController();
 
 /**
- * watches Acivity to keep Session alive
+ * watches Activity to keep Session alive
  * Sends Ping to Wall-Server to keep Session active
  * if current Interaction-Control watches DeviceMotion or DeviceOrientation
  * these events are considered as Activity
@@ -62,7 +62,7 @@ export class Inactivity {
             withCredentials: true,
         });
         apiClient
-            .put("/wallcontroller/ping")
+            .put("/api/wallcontroller/ping")
     }
 
 }

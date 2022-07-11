@@ -4,9 +4,9 @@ import { VueperSlides, VueperSlide } from "vueperslides";
 import { computed, ref } from "vue";
 import { useWallController } from "../service/WallControllerService";
 
-const { wallState, sendInteractionToWallServer } = useWallController();
+const { wallScreenState, sendInteractionToWallServer } = useWallController();
 const showmenu = ref(false);
-const wallApps = computed(() => wallState.value.wallAppsList);
+const wallApps = computed(() => wallScreenState.value.wallAppsList);
 </script>
 
 <template>

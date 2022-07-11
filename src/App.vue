@@ -13,7 +13,7 @@ const {
   clearStore,
   wallControllerState,
   userSessionData,
-  wallState,
+  wallScreenState,
 } = useWallController();
 
 //to check user session
@@ -50,7 +50,7 @@ onMounted(async () => {
       <p class="subheading" v-if="allowed">User: {{ userSessionData.name }}</p>
       <p
         class="subheading"
-        v-if="allowed && userSessionData.group > 0 && wallState.groups > 0"
+        v-if="allowed && userSessionData.group > 0 && wallScreenState.groups > 0"
       >
         User: {{ userSessionData.name }} Group: {{ userSessionData.group }}
       </p>
@@ -78,8 +78,15 @@ onMounted(async () => {
       >
         {{ wallControllerState.notificationText }}
       </div>
-      <div class="control" v-if="wallState.currentInteractionControls !== undefined">
-        <div v-for="(interactioncontrol, index) in wallState.currentInteractionControls">
+      <div
+        class="control"
+        v-if="wallScreenState.currentInteractionControls !== undefined"
+      >
+        <div
+          v-for="(
+            interactioncontrol, index
+          ) in wallScreenState.currentInteractionControls"
+        >
           <component
             :is="
               allInteractionControls.find((i) => i.name == interactioncontrol.name)
@@ -95,7 +102,9 @@ onMounted(async () => {
 
     <Footer
       v-if="
-        wallState.customButtons != null && wallState.customButtons.length > 0 && allowed
+        wallScreenState.customButtons != null &&
+        wallScreenState.customButtons.length > 0 &&
+        allowed
       "
     />
   </div>

@@ -3,7 +3,7 @@ import { useWallController } from "./WallControllerService";
 import { InteractionControls } from "./interactionWallApp/InteractionToWallApp";
 import axios from "axios";
 
-const { setReminder, wallState, wallControllerState } = useWallController();
+const { setReminder, wallScreenState, wallControllerState } = useWallController();
 
 /**
  * watches Acivity to keep Session alive
@@ -48,7 +48,7 @@ export class Inactivity {
         }
     }
     checkBeforeResetTimer() {
-        wallState.value.currentInteractionControls.forEach(interaction => {
+        wallScreenState.value.currentInteractionControls.forEach(interaction => {
             if (interaction.name == InteractionControls.MOVEMENT) {
                 this.resetTimer();
             }

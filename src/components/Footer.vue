@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useWallController } from "../service/WallControllerService";
-const {sendInteractionToWallServer,wallState} = useWallController();
+const {sendInteractionToWallServer,wallScreenState} = useWallController();
 
 </script>
 <template>
   <div class="wallcontrollerfooter custombuttons">
    <button
       class="button is-light"
-      v-for="(buttoncustom, i) in wallState.customButtons"
+      v-for="(buttoncustom, i) in wallScreenState.customButtons"
       :key="i"
       @click="sendInteractionToWallServer(buttoncustom, 'custombutton')"
     >

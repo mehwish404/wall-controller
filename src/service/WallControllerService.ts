@@ -11,7 +11,7 @@ import { InteractionControls } from "./interactionWallApp/InteractionToWallApp";
 import { InteractionWallAppType } from "./interactionWallApp/InteractionFromWallApp";
 import { WallControllerConfig } from "./models/WallControllerConfig";
 import { useSounds } from "./interactionWallApp/Sounds";
-import { IWallState } from "./models/WallState";
+import { IWallScreenState } from "./models/wallScreenState";
 import { IUserSessionData } from "./models/UserSessionData";
 
 const { isInteractionControlArray, isInteractionType } = useUtils();
@@ -27,7 +27,7 @@ const wallControllerState = reactive({
   movementPermissionNeeded: true,
   config: {} as WallControllerConfig,
   userSessionData: {} as IUserSessionData,
-  wallState: {} as IWallState,
+  wallScreenState: {} as IWallScreenState,
 })
 
 
@@ -56,7 +56,7 @@ async function checkToken(token: string) {
       wallControllerState.allowed = true
 
       //get current Wall-Screen-State and Configs
-      getWallState();
+      getWallScreenState();
       getConfig();
 
       // get cookie from request and start tracking inactivity of session
@@ -74,14 +74,14 @@ async function checkToken(token: string) {
  * gets Wall-State from Wall-Server to know if Wall-Scrren is paused
  * or which Interaction-Controls are currently needed
  */
-async function getWallState() {
+async function getWallScreenState() {
   apiClient
-    .get("/wallcontroller/wallstate/" + wallControllerState.userSessionData.id)
+    .get("/wallcontroller/wallScreenState/" + wallControllerState.userSessionData.id)
     .then((response) => {
-      wallControllerState.wallState = response.data;
+      wallControllerState.wallScreenState = response.data;
       const interactionControls = response.data.currentInteractionControls as InteractionControls[];
       changeInteractionControls(interactionControls)
-      wallControllerState.wallState.customButtons = response.data.currentWallApp.customButtons;
+      wallControllerState.wallScreenState.customButtons = response.data.currentWallApp.customButtons;
     })
     .catch((error) => {
       console.log(error);
@@ -128,7 +128,7 @@ function subscribeToWallServer() {
 
       //got info about groups amount of current Wall-App
       if (!isNaN(+message.body)) {
-        wallControllerState.wallState.groups = Number(message.body);
+        wallControllerState.wallScreenState.groups = Number(message.body);
       }
       //got Info about WallScreenControl
       else if (JSON.parse(message.body) in WallScreenControl) {
@@ -163,12 +163,12 @@ function subscribeToWallServer() {
  * @param buttons
  */
 function setCustomButtons(buttons: string) {
-  wallControllerState.wallState.customButtons = [];
+  wallControllerState.wallScreenState.customButtons = [];
   const array = JSON.parse(buttons) as string[]
   if (array.length == 1 && array[0] == "null") {
-    wallControllerState.wallState.customButtons = null;
+    wallControllerState.wallScreenState.customButtons = null;
   } else {
-    wallControllerState.wallState.customButtons = array;
+    wallControllerState.wallScreenState.customButtons = array;
   }
 }
 
@@ -189,7 +189,7 @@ function sendInteractionToWallServer(body: string, path: string) {
  * @param interaction 
  */
 function interactionFromWallServer(interaction: InteractionWallAppType) {
-  wallControllerState.wallState.currentInteractionControls.forEach(i => {
+  wallControllerState.wallScreenState.currentInteractionControls.forEach(i => {
     if (i.onInteraction !== undefined) {
       i.onInteraction(interaction);
     }
@@ -230,11 +230,11 @@ function interactionForWallController(interaction: InteractionWallAppType) {
 function setWallScreenControl(wallScreenControl: WallScreenControl) {
   switch (wallScreenControl) {
     case WallScreenControl.PAUSE: {
-      wallControllerState.wallState.paused = true;
+      wallControllerState.wallScreenState.paused = true;
       break;
     }
     case WallScreenControl.PLAY: {
-      wallControllerState.wallState.paused = false;
+      wallControllerState.wallScreenState.paused = false;
       break;
     }
     case WallScreenControl.ALLOW: {
@@ -288,11 +288,11 @@ function showNotification(text: string) {
  * @param interactionControl
  */
 function changeInteractionControls(interactionControl: Array<InteractionControls>) {
-  wallControllerState.wallState.currentInteractionControls = [];
+  wallControllerState.wallScreenState.currentInteractionControls = [];
   allInteractionControls.forEach((interactioncontrol) => {
     interactionControl.forEach(i => {
       if (interactioncontrol.name == i) {
-        wallControllerState.wallState.currentInteractionControls.push(interactioncontrol);
+        wallControllerState.wallScreenState.currentInteractionControls.push(interactioncontrol);
       }
     })
 
@@ -315,6 +315,6 @@ export function useWallController() {
     sendName,
     wallControllerState: computed(() => wallControllerState),
     userSessionData: computed(() => wallControllerState.userSessionData),
-    wallState: computed(() => wallControllerState.wallState)
+    wallScreenState: computed(() => wallControllerState.wallScreenState)
   }
 }

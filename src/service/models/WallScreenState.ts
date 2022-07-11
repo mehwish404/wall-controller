@@ -1,7 +1,7 @@
 import { InteractionControl } from "../interactionWallApp/InteractionControls";
 import { IWallApp } from "./WallApp";
 
-export interface IWallState{
+export interface IWallScreenState{
     wallAppsList: IWallApp[],
     currentInteractionControls:InteractionControl[],
     paused:boolean,

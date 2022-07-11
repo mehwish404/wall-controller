@@ -3,8 +3,8 @@ import { computed } from "vue";
 import { useWallController } from "../service/WallControllerService";
 import { WallScreenControl } from "../service/interactionWallScreen/WallScreenControl";
 
-const { sendInteractionToWallServer, wallState } = useWallController();
-const paused = computed(() => wallState.value.paused);
+const { sendInteractionToWallServer, wallScreenState } = useWallController();
+const paused = computed(() => wallScreenState.value.paused);
 const url = "control";
 </script>
 

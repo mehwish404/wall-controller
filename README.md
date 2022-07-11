@@ -47,3 +47,5 @@ Wall-Controller starten
 ```bash
   npm run dev
 ```
+
+Um die Funktionen des Wall-Controllers nutzen zu können, muss der Wall-Server und die Wall-Screen auf dem selben Server und Port laufen. Um die komplette Plattform laufen zu lassen, müssen folgende Schritte durchgeführt werden:

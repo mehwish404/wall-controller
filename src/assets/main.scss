@@ -1,0 +1,29 @@
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-family: var(--font-family);
+}
+
+
+/**WALL-CONTROLLER Panel AppMenu and NameQuery **/
+.panel-heading {
+  font-size: var(--normal-font-size);
+}
+
+.panel {
+  margin-left: 2vh;
+  margin-right: 2vh;
+  border-width: 5vw;
+
+}
+.panel-block {
+  display: initial;
+}
+
+
